@@ -1,14 +1,16 @@
 let fields = [
     null,
-    'circle',
-    'circle',
-    'circle',
     null,
     null,
-    'cross',
-    'cross',
+    null,
+    null,
+    null,
+    null,
+    null,
     null,
 ];
+
+let currentPlayer = 'circle';
 
 function init() {
     render();
@@ -21,7 +23,8 @@ function render() {
         html += '<tr>';
 
         for (let j = 0; j < 3; j++) {
-            const field = fields[i * 3 + j];
+            const index = i * 3 + j;
+            const field = fields[index];
             let symbol = '';
 
             if (field === 'circle') {
@@ -30,7 +33,7 @@ function render() {
                 symbol = generateCrossSVG();
             }
 
-            html += `<td onclick="">${symbol}</td>`;
+            html += `<td onclick="makeMove(${index}, this)">${symbol}</td>`;
         }
 
         html += '</tr>';
@@ -39,6 +42,27 @@ function render() {
     html += '</table>';
     document.getElementById('content').innerHTML = html;
 }
+
+function makeMove(index, cell) {
+    if (fields[index] === null) {
+        // Füge das Symbol zum Array hinzu
+        fields[index] = currentPlayer;
+
+        // Setze das Symbol ins angeklickte Feld
+        if (currentPlayer === 'circle') {
+            cell.innerHTML = generateCircleSVG();
+        } else {
+            cell.innerHTML = generateCrossSVG();
+        }
+
+        // Deaktiviere den onclick-Handler für dieses Feld
+        cell.onclick = null;
+
+        // Wechsel zum anderen Spieler
+        currentPlayer = currentPlayer === 'circle' ? 'cross' : 'circle';
+    }
+}
+
 
 function generateCircleSVG() {
     const color = "#00B0EF";   // Farbe des Kreises
