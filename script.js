@@ -21,6 +21,16 @@ function init() {
     render();
 }
 
+function restartGame() {
+    fields = [
+        null, null, null,
+        null, null, null,
+        null, null, null,
+    ];
+    currentPlayer = 'circle';
+    render();
+}
+
 function render() {
     let html = '<table>';
 
